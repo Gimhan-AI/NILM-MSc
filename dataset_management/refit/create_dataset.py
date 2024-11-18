@@ -4,7 +4,7 @@ import os
 import re
 import argparse
 
-DATA_DIRECTORY = '/home/mingjun/mingjun/research/housedata/refit/CLEAN_REFIT_081116/'
+DATA_DIRECTORY = '/media/vegaai/HardDrive/ProjectMSc/projectMSc-seq2point/data/refit/'
 SAVE_PATH = 'kettle/'
 AGG_MEAN = 522
 AGG_STD = 814

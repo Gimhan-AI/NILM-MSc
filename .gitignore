@@ -1,0 +1,7 @@
+*.csv
+*.png
+*.keras
+*.log
+*.h5
+*.dat
+*.yaml

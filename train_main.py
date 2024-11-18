@@ -3,8 +3,8 @@ from remove_space import remove_space
 from seq2point_train import Trainer
 # Allows a model to be trained from the terminal.
 
-training_directory="~/mingjun/research/housedata/refit/kettle/kettle_training_.csv"
-validation_directory="~/mingjun/research/housedata/refit/kettle/kettle_validation_.csv"
+training_directory="/media/vegaai/HardDrive/ProjectMSc/projectMSc-seq2point/dataset_management/refit/kettle/kettle_training_.csv"
+validation_directory="/media/vegaai/HardDrive/ProjectMSc/projectMSc-seq2point/dataset_management/refit/kettle/kettle_validation_H5.csv"
 
 parser = argparse.ArgumentParser(description="Train sequence-to-point learning for energy disaggregation. ")
 
@@ -13,7 +13,7 @@ parser.add_argument("--batch_size", type=int, default="1000", help="The batch si
 parser.add_argument("--crop", type=int, default="1000", help="The number of rows of the dataset to take training data from. Default is 10000. ")
 #parser.add_argument("--pruning_algorithm", type=remove_space, default="default", help="The pruning algorithm that the network will train with. Default is none. Available are: spp, entropic, threshold. ")
 parser.add_argument("--network_type", type=remove_space, default="seq2point", help="The seq2point architecture to use. ")
-parser.add_argument("--epochs", type=int, default="2", help="Number of epochs. Default is 10. ")
+parser.add_argument("--epochs", type=int, default="10", help="Number of epochs. Default is 10. ")
 parser.add_argument("--input_window_length", type=int, default="599", help="Number of input data points to network. Default is 599.")
 parser.add_argument("--validation_frequency", type=int, default="1", help="How often to validate model. Default is 1. ")
 parser.add_argument("--training_directory", type=str, default=training_directory, help="The dir for training data. ")

@@ -112,8 +112,60 @@ class Tester():
 
         self.count_pruned_weights(model)  
 
-    def count_pruned_weights(self, model):
+    # def count_pruned_weights(self, model):
 
+    #     """ Counts the total number of weights, pruned weights, and weights in convolutional 
+    #     layers. Calculates the sparsity ratio of different layer types and logs these values.
+
+    #     Parameters:
+    #     model (tf.keras.Model): The evaluated model.
+
+    #     """
+    #     num_total_zeros = 0
+    #     num_dense_zeros = 0
+    #     num_dense_weights = 0
+    #     num_conv_zeros = 0
+    #     num_conv_weights = 0
+    #     for layer in model.layers:
+    #         if np.shape(layer.get_weights())[0] != 0:
+    #             layer_weights = layer.get_weights()[0].flatten()
+
+    #             if "conv" in layer.name:
+    #                 num_conv_weights += np.size(layer_weights)
+    #                 num_conv_zeros += np.count_nonzero(layer_weights==0)
+
+    #                 num_total_zeros += np.size(layer_weights)
+    #             else:
+    #                 num_dense_weights += np.size(layer_weights)
+    #                 num_dense_zeros += np.count_nonzero(layer_weights==0)
+
+    #     conv_zeros_string = "CONV. ZEROS: " + str(num_conv_zeros)
+    #     conv_weights_string = "CONV. WEIGHTS: " + str(num_conv_weights)
+    #     conv_sparsity_ratio = "CONV. RATIO: " + str(num_conv_zeros / num_conv_weights)
+
+    #     dense_weights_string = "DENSE WEIGHTS: " + str(num_dense_weights)
+    #     dense_zeros_string = "DENSE ZEROS: " + str(num_dense_zeros)
+    #     dense_sparsity_ratio = "DENSE RATIO: " + str(num_dense_zeros / num_dense_weights)
+
+    #     total_zeros_string = "TOTAL ZEROS: " + str(num_total_zeros)
+    #     total_weights_string = "TOTAL WEIGHTS: " + str(model.count_params())
+    #     total_sparsity_ratio = "TOTAL RATIO: " + str(num_total_zeros / model.count_params())
+
+    #     print("LOGGING PATH: ", self.__log_file)
+
+    #     logging.info(conv_zeros_string)
+    #     logging.info(conv_weights_string)
+    #     logging.info(conv_sparsity_ratio)
+    #     logging.info("")
+    #     logging.info(dense_zeros_string)
+    #     logging.info(dense_weights_string)
+    #     logging.info(dense_sparsity_ratio)
+    #     logging.info("")
+    #     logging.info(total_zeros_string)
+    #     logging.info(total_weights_string)
+    #     logging.info(total_sparsity_ratio)
+    
+    def count_pruned_weights(self, model):
         """ Counts the total number of weights, pruned weights, and weights in convolutional 
         layers. Calculates the sparsity ratio of different layer types and logs these values.
 
@@ -126,26 +178,30 @@ class Tester():
         num_dense_weights = 0
         num_conv_zeros = 0
         num_conv_weights = 0
+
         for layer in model.layers:
-            if np.shape(layer.get_weights())[0] != 0:
-                layer_weights = layer.get_weights()[0].flatten()
+            weights = layer.get_weights()
+            if weights:  # Check if the layer has weights
+                for w in weights:
+                    if np.asarray(w).size != 0:  # Ensure it's a non-empty array
+                        w_array = np.asarray(w).flatten()
 
-                if "conv" in layer.name:
-                    num_conv_weights += np.size(layer_weights)
-                    num_conv_zeros += np.count_nonzero(layer_weights==0)
+                        if "conv" in layer.name:
+                            num_conv_weights += np.size(w_array)
+                            num_conv_zeros += np.count_nonzero(w_array == 0)
 
-                    num_total_zeros += np.size(layer_weights)
-                else:
-                    num_dense_weights += np.size(layer_weights)
-                    num_dense_zeros += np.count_nonzero(layer_weights==0)
+                            num_total_zeros += np.size(w_array)
+                        else:
+                            num_dense_weights += np.size(w_array)
+                            num_dense_zeros += np.count_nonzero(w_array == 0)
 
         conv_zeros_string = "CONV. ZEROS: " + str(num_conv_zeros)
         conv_weights_string = "CONV. WEIGHTS: " + str(num_conv_weights)
-        conv_sparsity_ratio = "CONV. RATIO: " + str(num_conv_zeros / num_conv_weights)
+        conv_sparsity_ratio = "CONV. RATIO: " + str(num_conv_zeros / num_conv_weights if num_conv_weights > 0 else 0)
 
         dense_weights_string = "DENSE WEIGHTS: " + str(num_dense_weights)
         dense_zeros_string = "DENSE ZEROS: " + str(num_dense_zeros)
-        dense_sparsity_ratio = "DENSE RATIO: " + str(num_dense_zeros / num_dense_weights)
+        dense_sparsity_ratio = "DENSE RATIO: " + str(num_dense_zeros / num_dense_weights if num_dense_weights > 0 else 0)
 
         total_zeros_string = "TOTAL ZEROS: " + str(num_total_zeros)
         total_weights_string = "TOTAL WEIGHTS: " + str(model.count_params())
@@ -164,6 +220,7 @@ class Tester():
         logging.info(total_zeros_string)
         logging.info(total_weights_string)
         logging.info(total_sparsity_ratio)
+
 
     def plot_results(self, testing_history, test_input, test_target):
 
@@ -197,7 +254,7 @@ class Tester():
         plt.xlabel("Testing Window")
         plt.legend()
 
-        #file_path = "./" + self.__appliance + "/saved_models/" + self.__appliance + "_" + self.__algorithm + "_" + self.__network_type + "_test_figure.png"
-        #plt.savefig(fname=file_path)
+        # file_path = "./" + self.__appliance + "/saved_models/" + self.__appliance + "_" + self.__algorithm + "_" + self.__network_type + "_test_figure.png"
+        # plt.savefig(fname=file_path)
 
         plt.show()
