@@ -5,7 +5,7 @@ from seq2point_test import Tester
 # Allows a model to be tested from the terminal.
 
 # You need to input your test data directory
-test_directory="/media/vegaai/HardDrive/ProjectMSc/projectMSc-seq2point/dataset_management/refit/kettle/kettle_test_H2.csv"
+test_directory="dataset_training/ukdale/kettle/kettle_test_.csv"
 
 parser = argparse.ArgumentParser(description="Train a pruned neural network for energy disaggregation. ")
 
@@ -20,7 +20,8 @@ parser.add_argument("--test_directory", type=str, default=test_directory, help="
 arguments = parser.parse_args()
 
 # You need to provide the trained model
-saved_model_dir = "saved_models/" + arguments.appliance_name + "_" + arguments.algorithm + "_model.h5"
+# saved_model_dir = "saved_models/" + arguments.appliance_name + "_" + arguments.algorithm + "_model.h5"
+saved_model_dir = "saved_models/ukdale/kettle_model.h5"
 
 # The logs including results will be recorded to this log file
 log_file_dir = "saved_models/" + arguments.appliance_name + "_" + arguments.algorithm + "_" + arguments.network_type + ".log"

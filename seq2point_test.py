@@ -247,7 +247,7 @@ class Tester():
         # Plot testing outcomes against ground truth.
         plt.figure(1)
         plt.plot(test_agg[self.__window_offset: -self.__window_offset], label="Aggregate")
-        plt.plot(test_target[:test_agg.size - (2 * self.__window_offset)], label="Ground Truth")
+        # plt.plot(test_target[:test_agg.size - (2 * self.__window_offset)], label="Ground Truth")
         plt.plot(testing_history[:test_agg.size - (2 * self.__window_offset)], label="Predicted")
         plt.title(self.__appliance + " " + self.__network_type + "(" + self.__algorithm + ")")
         plt.ylabel("Power Value (Watts)")
